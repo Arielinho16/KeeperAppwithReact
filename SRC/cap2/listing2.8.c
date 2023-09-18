@@ -1,5 +1,6 @@
 #include<stdio.h>
+#include "listing2.7.h"
 int main ()
 {
-return f ();
+printf("%d\n", f());
 }

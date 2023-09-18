@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
@@ -25,8 +24,8 @@ char* read_from_file(const char* filename, size_t length) {
 
     // Lee los datos desde el archivo al búfer.
     bytes_read = read(fd, buffer, length);
-    if (bytes_read != (ssize_t)length) {
-        // La lectura no se completó como se esperaba. Libera la memoria del búfer y cierra el archivo antes de retornar.
+    if (bytes_read == -1) {
+        // Error de lectura. Libera la memoria del búfer y cierra el archivo antes de retornar.
         free(buffer);
         close(fd);
         return NULL;
@@ -38,8 +37,8 @@ char* read_from_file(const char* filename, size_t length) {
 }
 
 int main() {
-    const char* filename = "/home/mazax/TP_LP3_2023/SRC/cap2/mi_archivo.txt"; // Reemplaza con el nombre de tu archivo
-    size_t length = 1024; // Reemplaza con la longitud deseada
+    const char* filename = "hola.txt"; // Reemplaza con el nombre de tu archivo
+    size_t length = 100000; // Reemplaza con la longitud deseada
 
     // Llama a la función read_from_file
     char* buffer = read_from_file(filename, length);
