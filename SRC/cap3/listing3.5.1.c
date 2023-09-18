@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
+#include <sys/wait.h>
 #include <unistd.h>
 
 /* Spawn a child process running a new program. PROGRAM is the name
@@ -28,6 +29,8 @@ int spawn(char* program, char** arg_list) {
 }
 
 int main() {
+    int child_status;
+    
     /* The argument list to pass to the "ls" command. */
     char* arg_list[] = {
         "ls",   /* argv[0], the name of the program. */
@@ -39,7 +42,15 @@ int main() {
     /* Spawn a child process running the "ls" command. Ignore the
        returned child process ID. */
     spawn("ls", arg_list); 
-    printf("Done with main program\n");
+    
+    /* Wait for the child process to complete. */
+    wait(&child_status);
+    
+    if (WIFEXITED(child_status))
+        printf("El proceso hijo salió normalmente, con código de salida %d\n",
+               WEXITSTATUS(child_status));
+    else
+        printf("El proceso hijo salió de manera anormal\n");
     
     return 0;
 }
